@@ -16,6 +16,7 @@ namespace TaskManager
         public Form1()
         {
             InitializeComponent();
+            this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
             FileManagement fm = new FileManagement();
             SaveText = fm.GetFileText(DateTime.Now);
             if (SaveText != "")
@@ -37,6 +38,15 @@ namespace TaskManager
 
 
 
+        }
+
+        void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (saveObject != null)
+            {
+                FileManagement fm = new FileManagement();
+                fm.WriteFileText(saveObject, currentTime);
+            }
         }
 
         private void addTaskBtn_Click(object sender, EventArgs e)
@@ -148,7 +158,11 @@ namespace TaskManager
 
         void c_Click(object sender, EventArgs e)
         {
-            CheckBox c = sender as CheckBox;
+            CheckBox? c = sender as CheckBox;
+            if(saveObject == null)
+            {
+                return;
+            }
             if(saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked == true)
             {
                 saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked = false;
