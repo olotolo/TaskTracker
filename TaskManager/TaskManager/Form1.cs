@@ -149,13 +149,16 @@ namespace TaskManager
         void c_Click(object sender, EventArgs e)
         {
             CheckBox c = sender as CheckBox;
-            if (c.Checked)
+            if(saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked == true)
             {
-                
-                Console.WriteLine("check");
+                saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked = false;
+            } else
+            {
                 saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked = true;
-            } 
-            
+            }
+
+
+
         }
 
 
