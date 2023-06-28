@@ -1,5 +1,6 @@
 using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TaskManager.Classes;
@@ -72,25 +73,23 @@ namespace TaskManager
             {
                 fm.WriteFileText(saveObject, currentTime);
             }
-            
-        }
-
-
-
-        private void displayText_Click(object sender, EventArgs e)
-        {
 
         }
+
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            for(int i = 0; i < labels.Count; i++)
+            for (int i = 0; i < labels.Count; i++)
             {
                 Controls.Remove(labels[i]);
             }
             for (int i = 0; i < checkBoxes.Count; i++)
             {
                 Controls.Remove(checkBoxes[i]);
+            }
+            for(int i = 0; i < buttons.Count; i++)
+            {
+                Controls.Remove(buttons[i]);
             }
 
 
@@ -108,7 +107,7 @@ namespace TaskManager
                 string SaveText = fm.GetFileText(dt);
 
                 saveObject = JsonConvert.DeserializeObject<SaveObject>(SaveText);
-                if(saveObject == null)
+                if (saveObject == null)
                 {
                     saveObject = new SaveObject();
                 }
@@ -130,43 +129,70 @@ namespace TaskManager
         }
         private List<Label> labels = new List<Label>();
         private List<CheckBox> checkBoxes = new List<CheckBox>();
+        private List<Button> buttons = new List<Button>();
         public void DisplayTasks()
         {
 
             for (int i = 0; i < saveObject.Days[currentTime.Day - 1].Tasks.Count(); i++)
             {
-                
+
                 Label label = new Label();
                 labels.Add(label);
                 this.Controls.Add(label);
                 label.Name = i.ToString();
                 label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i].TaskString;
-                label.Location = new Point(40, 55 + (i * 40));
+                label.Location = new Point(40, 50 + (i * 40));
                 label.Size = new Size(200, 40);
 
                 CheckBox c = new CheckBox();
                 checkBoxes.Add(c);
                 c.Checked = saveObject.Days[currentTime.Day - 1].Tasks[i].Checked;
-                c.Location = new Point(20, 50 +(i* 40));
+                c.Location = new Point(20, 50 + (i * 40));
                 c.Width = 20;
                 c.Name = i.ToString();
                 this.Controls.Add(c);
                 c.Click += c_Click;
+
+                Button button = new Button();
+                this.Controls.Add(button);
+                buttons.Add(button);
+                button.Location = new Point(280, 50 + (i * 40));
+                button.Text = "Delete";
+                button.Name = i.ToString();
+                button.Click += button_Click;
             }
+
+        }
+
+        //delete button
+        void button_Click(object sender, EventArgs e)
+        {
+            Button? btn = sender as Button;
+            saveObject.Days[currentTime.Day - 1].Tasks.RemoveAt(Convert.ToInt32(btn.Name));
+                
+        }
+
+        private void addTask()
+        {
+
+        }
+        private void removeTask()
+        {
 
         }
 
         void c_Click(object sender, EventArgs e)
         {
             CheckBox? c = sender as CheckBox;
-            if(saveObject == null)
+            if (saveObject == null)
             {
                 return;
             }
-            if(saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked == true)
+            if (saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked == true)
             {
                 saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked = false;
-            } else
+            }
+            else
             {
                 saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked = true;
             }

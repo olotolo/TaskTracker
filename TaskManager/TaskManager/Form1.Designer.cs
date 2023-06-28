@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             addTaskBtn = new Button();
-            displayText = new Label();
             dateTimePicker1 = new DateTimePicker();
             taskInput = new TextBox();
             SuspendLayout();
@@ -43,16 +42,6 @@
             addTaskBtn.Text = "Add Task";
             addTaskBtn.UseVisualStyleBackColor = true;
             addTaskBtn.Click += addTaskBtn_Click;
-            // 
-            // displayText
-            // 
-            displayText.AutoSize = true;
-            displayText.Location = new Point(408, 9);
-            displayText.Name = "displayText";
-            displayText.Size = new Size(38, 15);
-            displayText.TabIndex = 2;
-            displayText.Text = "label1";
-            displayText.Click += displayText_Click;
             // 
             // dateTimePicker1
             // 
@@ -77,7 +66,6 @@
             ClientSize = new Size(822, 470);
             Controls.Add(taskInput);
             Controls.Add(dateTimePicker1);
-            Controls.Add(displayText);
             Controls.Add(addTaskBtn);
             Name = "Form1";
             Text = "Form1";
@@ -87,7 +75,6 @@
 
         #endregion
         private Button addTaskBtn;
-        private Label displayText;
         private DateTimePicker dateTimePicker1;
         private TextBox taskInput;
     }
