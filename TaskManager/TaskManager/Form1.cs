@@ -25,6 +25,7 @@ namespace TaskManager
                 try
                 {
                     saveObject = JsonConvert.DeserializeObject<SaveObject>(SaveText);
+                    DisplayTasks();
 
                 }
                 catch (Exception ex)
@@ -54,14 +55,8 @@ namespace TaskManager
         {
             Classes.Task task = new Classes.Task();
             task.TaskString = taskInput.Text;
-            if (saveObject.Days[currentTime.Day-1].Tasks.Count > 0)
-            {
-                task.Id = saveObject.Days[currentTime.Day - 1].Tasks[saveObject.Days[currentTime.Day - 1].Tasks.Count-1].Id + 1;
+            task.Id = Guid.NewGuid().ToString();
 
-            } else
-            {
-                task.Id = 0;
-            }
             DateTime dt = dateTimePicker1.Value.Date;
 
             if (saveObject != null)
@@ -176,12 +171,43 @@ namespace TaskManager
         void button_Click(object sender, EventArgs e)
         {
             Button? btn = sender as Button;
-            //saveObject.Days[currentTime.Day - 1].Tasks.RemoveAt(Convert.ToInt32(btn.Name));
-            var itemToRemove = saveObject.Days[currentTime.Day - 1].Tasks.Single(r => r.Id == Convert.ToInt32(btn.Name));
+            var itemToRemove = saveObject.Days[currentTime.Day - 1].Tasks.Single(r => r.Id == btn.Name);
             saveObject.Days[currentTime.Day - 1].Tasks.Remove(itemToRemove);
+            FileManagement fm = new FileManagement();
+            //Save Changes to txt file.
+            if (saveObject != null)
+            {
+                fm.WriteFileText(saveObject, currentTime);
+            }
 
+            //Load current month
+            string SaveText = fm.GetFileText(currentTime);
 
-            removeTask(itemToRemove.Id);
+            saveObject = JsonConvert.DeserializeObject<SaveObject>(SaveText);
+            if (saveObject == null)
+            {
+                saveObject = new SaveObject();
+            }
+
+            deleteAllTasks();
+            DisplayTasks();
+            //removeTask(itemToRemove.Id);
+        }
+
+        public void deleteAllTasks()
+        {
+            for (int i = 0; i < labels.Count; i++)
+            {
+                Controls.Remove(labels[i]);
+            }
+            for (int i = 0; i < checkBoxes.Count; i++)
+            {
+                Controls.Remove(checkBoxes[i]);
+            }
+            for (int i = 0; i < buttons.Count; i++)
+            {
+                Controls.Remove(buttons[i]);
+            }
         }
 
         private void addTask(int i)
@@ -190,7 +216,7 @@ namespace TaskManager
             Label label = new Label();
             labels.Add(label);
             this.Controls.Add(label);
-            label.Name = saveObject.Days[currentTime.Day - 1].Tasks.Last().Id.ToString();
+            label.Name = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Id.ToString();
             label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i-1].TaskString;
             label.Location = new Point(40,15+(i * 40));
             label.Size = new Size(200, 40);
@@ -200,7 +226,7 @@ namespace TaskManager
             c.Checked = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Checked;
             c.Location = new Point(20,15+(i * 40));
             c.Width = 20;
-            c.Name = saveObject.Days[currentTime.Day - 1].Tasks.Last().Id.ToString();
+            c.Name = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Id.ToString();
             this.Controls.Add(c);
             c.Click += c_Click;
 
@@ -209,11 +235,11 @@ namespace TaskManager
             buttons.Add(button);
             button.Location = new Point(280,15 + (i * 40));
             button.Text = "Delete";
-            button.Name = saveObject.Days[currentTime.Day - 1].Tasks.Last().Id.ToString();
+            button.Name = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Id.ToString();
             button.Click += button_Click;
         }
 
-        private void removeTask(int i)
+        private void removeTask(string i)
         {
             int label = labels.FindIndex(r => r.Name == i.ToString());
             int cb = checkBoxes.FindIndex(r => r.Name == i.ToString());
@@ -231,13 +257,14 @@ namespace TaskManager
             {
                 return;
             }
-            if (saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked == true)
+            int index = saveObject.Days[currentTime.Day - 1].Tasks.FindIndex(r => r.Id == c.Name);
+            if (saveObject.Days[currentTime.Day - 1].Tasks[index].Checked == true)
             {
-                saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked = false;
+                saveObject.Days[currentTime.Day - 1].Tasks[index].Checked = false;
             }
             else
             {
-                saveObject.Days[currentTime.Day - 1].Tasks[Convert.ToInt32(c.Name)].Checked = true;
+                saveObject.Days[currentTime.Day - 1].Tasks[index].Checked = true;
             }
 
 
