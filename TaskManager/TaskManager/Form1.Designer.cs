@@ -73,6 +73,7 @@
             PerformLayout();
         }
 
+
         #endregion
         private Button addTaskBtn;
         private DateTimePicker dateTimePicker1;
