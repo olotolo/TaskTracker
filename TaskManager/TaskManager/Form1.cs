@@ -53,6 +53,8 @@ namespace TaskManager
 
         private void addTaskBtn_Click(object sender, EventArgs e)
         {
+            taskPanel.VerticalScroll.Value = 0;
+
             Classes.Task task = new Classes.Task();
             task.TaskString = taskInput.Text;
             task.Id = Guid.NewGuid().ToString();
@@ -171,7 +173,6 @@ namespace TaskManager
         }
 
         private int colorCount = 0;
-
         private void addTask(int i)
         {
             Panel panel = new Panel();
@@ -223,7 +224,7 @@ namespace TaskManager
             button.BringToFront();
         }
 
-
+        // Checkbox
         void c_Click(object sender, EventArgs e)
         {
             CheckBox? c = sender as CheckBox;
