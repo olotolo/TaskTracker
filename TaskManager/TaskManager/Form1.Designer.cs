@@ -31,6 +31,7 @@
             addTaskBtn = new Button();
             dateTimePicker1 = new DateTimePicker();
             taskInput = new TextBox();
+            taskPanel = new Panel();
             SuspendLayout();
             // 
             // addTaskBtn
@@ -59,11 +60,19 @@
             taskInput.TabIndex = 4;
             taskInput.TextChanged += taskInput_TextChanged;
             // 
+            // taskPanel
+            // 
+            taskPanel.Location = new Point(0, 29);
+            taskPanel.Name = "taskPanel";
+            taskPanel.Size = new Size(402, 442);
+            taskPanel.TabIndex = 5;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(822, 470);
+            Controls.Add(taskPanel);
             Controls.Add(taskInput);
             Controls.Add(dateTimePicker1);
             Controls.Add(addTaskBtn);
@@ -78,5 +87,6 @@
         private Button addTaskBtn;
         private DateTimePicker dateTimePicker1;
         private TextBox taskInput;
+        private Panel taskPanel;
     }
 }

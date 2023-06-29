@@ -8,7 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace TaskManager
 {
-    public partial class Form1 : Form
+    public partial class Form1 : System.Windows.Forms.Form
     {
         public string SaveText;
         public SaveObject? saveObject;
@@ -38,7 +38,7 @@ namespace TaskManager
                 saveObject = new SaveObject();
             }
 
-
+            
 
         }
 
@@ -66,7 +66,7 @@ namespace TaskManager
                     AddDays(dt);
                 }
                 saveObject.Days[dt.Day - 1].Tasks.Add(task);
-                addTask(saveObject.Days[dt.Day-1].Tasks.Count);
+                addTask(saveObject.Days[dt.Day - 1].Tasks.Count);
             }
 
             //Save Changes to txt file.
@@ -82,18 +82,7 @@ namespace TaskManager
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            for (int i = 0; i < labels.Count; i++)
-            {
-                Controls.Remove(labels[i]);
-            }
-            for (int i = 0; i < checkBoxes.Count; i++)
-            {
-                Controls.Remove(checkBoxes[i]);
-            }
-            for(int i = 0; i < buttons.Count; i++)
-            {
-                Controls.Remove(buttons[i]);
-            }
+            deleteAllTasks();
 
 
             DateTime dt = dateTimePicker1.Value.Date;
@@ -133,36 +122,13 @@ namespace TaskManager
         private List<Label> labels = new List<Label>();
         private List<CheckBox> checkBoxes = new List<CheckBox>();
         private List<Button> buttons = new List<Button>();
+        private List<Panel> panels = new List<Panel>();
         public void DisplayTasks()
         {
 
             for (int i = 0; i < saveObject.Days[currentTime.Day - 1].Tasks.Count(); i++)
             {
-
-                Label label = new Label();
-                labels.Add(label);
-                this.Controls.Add(label);
-                label.Name = saveObject.Days[currentTime.Day - 1].Tasks[i].Id.ToString();
-                label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i].TaskString;
-                label.Location = new Point(40, 50 + (i * 40));
-                label.Size = new Size(200, 40);
-
-                CheckBox c = new CheckBox();
-                checkBoxes.Add(c);
-                c.Checked = saveObject.Days[currentTime.Day - 1].Tasks[i].Checked;
-                c.Location = new Point(20, 50 + (i * 40));
-                c.Width = 20;
-                c.Name = saveObject.Days[currentTime.Day - 1].Tasks[i].Id.ToString();
-                this.Controls.Add(c);
-                c.Click += c_Click;
-
-                Button button = new Button();
-                this.Controls.Add(button);
-                buttons.Add(button);
-                button.Location = new Point(280, 50 + (i * 40));
-                button.Text = "Delete";
-                button.Name = saveObject.Days[currentTime.Day - 1].Tasks[i].Id.ToString();
-                button.Click += button_Click;
+                addTask(i + 1);
             }
 
         }
@@ -196,59 +162,67 @@ namespace TaskManager
 
         public void deleteAllTasks()
         {
-            for (int i = 0; i < labels.Count; i++)
+            for(int i = 0; i < panels.Count; i++)
             {
-                Controls.Remove(labels[i]);
+                taskPanel.Controls.Remove(panels[i]);
             }
-            for (int i = 0; i < checkBoxes.Count; i++)
-            {
-                Controls.Remove(checkBoxes[i]);
-            }
-            for (int i = 0; i < buttons.Count; i++)
-            {
-                Controls.Remove(buttons[i]);
-            }
+
+
         }
+
+        private int colorCount = 0;
 
         private void addTask(int i)
         {
-            
+            Panel panel = new Panel();
+            panels.Add(panel);
+            panel.Parent = taskPanel;
+            panel.Location = new Point(5, (i*30));
+            panel.Size = new Size(375, 30);
+            taskPanel.AutoScroll = true;
+            if(colorCount % 2 == 0)
+            {
+                panel.BackColor = Color.White;
+            } else
+            {
+                panel.BackColor = Color.LightGray;
+            }
+            colorCount++;
             Label label = new Label();
             labels.Add(label);
             this.Controls.Add(label);
             label.Name = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Id.ToString();
             label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i-1].TaskString;
-            label.Location = new Point(40,15+(i * 40));
-            label.Size = new Size(200, 40);
+            label.Location = new Point(50, 0);
+            label.Size = new Size(200, 30);
+            label.Parent = panel;
+            label.BringToFront();
 
             CheckBox c = new CheckBox();
             checkBoxes.Add(c);
-            c.Checked = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Checked;
-            c.Location = new Point(20,15+(i * 40));
+            c.Checked = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Checked;
+            c.Location = new Point(10, 0);
+            c.Size = new Size(30, 30);
+
             c.Width = 20;
             c.Name = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Id.ToString();
             this.Controls.Add(c);
             c.Click += c_Click;
+            c.Parent = panel;
+            label.BringToFront();
 
             Button button = new Button();
             this.Controls.Add(button);
             buttons.Add(button);
-            button.Location = new Point(280,15 + (i * 40));
+            button.Location = new Point(280, 0);
+            button.Size = new Size(90, 30);
             button.Text = "Delete";
             button.Name = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Id.ToString();
             button.Click += button_Click;
+            button.Parent = panel;
+            button.BringToFront();
         }
 
-        private void removeTask(string i)
-        {
-            int label = labels.FindIndex(r => r.Name == i.ToString());
-            int cb = checkBoxes.FindIndex(r => r.Name == i.ToString());
-            int btn = buttons.FindIndex(r => r.Name == i.ToString());
-            Controls.Remove(labels[label]);
-            Controls.Remove(checkBoxes[cb]);
-            Controls.Remove(buttons[cb]);   
-            
-        }
 
         void c_Click(object sender, EventArgs e)
         {
