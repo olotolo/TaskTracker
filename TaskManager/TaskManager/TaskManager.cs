@@ -153,6 +153,7 @@ namespace TaskManager
         {
             Panel panel = new Panel();
             panels.Add(panel);
+            panel.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString();
             panel.Parent = taskPanel;
             panel.Location = new Point(5, (i * 30));
             panel.Size = new Size(375, 30);
@@ -171,10 +172,10 @@ namespace TaskManager
             Label label = new Label();
             labels.Add(label);
             this.Controls.Add(label);
-            label.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString();
+            label.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString() + "label";
             label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].TaskString;
-            label.Location = new Point(50, 0);
-            label.Size = new Size(200, 30);
+            label.Location = new Point(80, 0);
+            label.Size = new Size(170, 30);
             label.Parent = panel;
             label.BringToFront();
 
@@ -183,7 +184,6 @@ namespace TaskManager
             c.Checked = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Checked;
             c.Location = new Point(10, 0);
             c.Size = new Size(30, 30);
-
             c.Width = 20;
             c.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString();
             this.Controls.Add(c);
@@ -222,11 +222,28 @@ namespace TaskManager
             }
         }
 
+        private Panel currentPanel;
+        private Color panelColor;
+        //When the panel is clicked;
         void Panel_Click(object sender, EventArgs e)
         {
             Panel? panel = sender as Panel;
-        }
+            if (currentPanel != null)
+            {
+                currentPanel.BackColor = panelColor;
+            }
 
+            if (panel == currentPanel)
+            {
+                currentPanel.BackColor = panelColor;
+                currentPanel = null;
+                return;
+            }
+            panelColor = panel.BackColor;
+            panel.BackColor = Color.LightBlue;
+            currentPanel = panel;
+
+        }
 
         public void AddDays(DateTime dt)
         {

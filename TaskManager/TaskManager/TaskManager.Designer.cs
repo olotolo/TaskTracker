@@ -36,7 +36,7 @@
             // 
             // addTaskBtn
             // 
-            addTaskBtn.Location = new Point(408, 113);
+            addTaskBtn.Location = new Point(564, 98);
             addTaskBtn.Name = "addTaskBtn";
             addTaskBtn.Size = new Size(120, 45);
             addTaskBtn.TabIndex = 1;
@@ -54,9 +54,10 @@
             // 
             // taskInput
             // 
-            taskInput.Location = new Point(408, 69);
+            taskInput.Location = new Point(408, 29);
+            taskInput.Multiline = true;
             taskInput.Name = "taskInput";
-            taskInput.Size = new Size(187, 23);
+            taskInput.Size = new Size(402, 63);
             taskInput.TabIndex = 4;
             taskInput.TextChanged += taskInput_TextChanged;
             // 
@@ -67,7 +68,7 @@
             taskPanel.Size = new Size(402, 442);
             taskPanel.TabIndex = 5;
             // 
-            // Form1
+            // TaskManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
