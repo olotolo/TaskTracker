@@ -1,47 +1,23 @@
-using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using TaskManager.Classes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TaskManager
 {
-    public partial class Form1 : System.Windows.Forms.Form
+    public partial class TaskManager : System.Windows.Forms.Form
     {
-        public string SaveText;
         public SaveObject? saveObject;
         //Used to save in which month the current changes are made.
         public DateTime currentTime = DateTime.Now;
-        public Form1()
+        public TaskManager()
         {
             InitializeComponent();
             this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
             FileManagement fm = new FileManagement();
-            SaveText = fm.GetFileText(DateTime.Now);
-            if (SaveText != "")
-            {
-                try
-                {
-                    saveObject = JsonConvert.DeserializeObject<SaveObject>(SaveText);
-                    DisplayTasks();
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-            }
-            else
-            {
-                saveObject = new SaveObject();
-            }
-
-            
-
+            saveObject = fm.GetSaveObject(DateTime.Now);
+            DisplayTasks();
         }
 
+        //Called when the Application (Form1) is closed
         void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (saveObject != null)
@@ -51,14 +27,15 @@ namespace TaskManager
             }
         }
 
+        //Button press adds a Task
         private void addTaskBtn_Click(object sender, EventArgs e)
         {
+            int temp = taskPanel.VerticalScroll.Value;
             taskPanel.VerticalScroll.Value = 0;
 
             Classes.Task task = new Classes.Task();
             task.TaskString = taskInput.Text;
             task.Id = Guid.NewGuid().ToString();
-
             DateTime dt = dateTimePicker1.Value.Date;
 
             if (saveObject != null)
@@ -78,7 +55,6 @@ namespace TaskManager
             {
                 fm.WriteFileText(saveObject, currentTime);
             }
-
         }
 
 
@@ -164,7 +140,7 @@ namespace TaskManager
 
         public void deleteAllTasks()
         {
-            for(int i = 0; i < panels.Count; i++)
+            for (int i = 0; i < panels.Count; i++)
             {
                 taskPanel.Controls.Remove(panels[i]);
             }
@@ -172,28 +148,28 @@ namespace TaskManager
 
         }
 
-        private int colorCount = 0;
+
         private void addTask(int i)
         {
             Panel panel = new Panel();
             panels.Add(panel);
             panel.Parent = taskPanel;
-            panel.Location = new Point(5, (i*30));
+            panel.Location = new Point(5, (i * 30));
             panel.Size = new Size(375, 30);
             taskPanel.AutoScroll = true;
-            if(colorCount % 2 == 0)
+            if (i % 2 == 0)
             {
                 panel.BackColor = Color.White;
-            } else
+            }
+            else
             {
                 panel.BackColor = Color.LightGray;
             }
-            colorCount++;
             Label label = new Label();
             labels.Add(label);
             this.Controls.Add(label);
-            label.Name = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Id.ToString();
-            label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i-1].TaskString;
+            label.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString();
+            label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].TaskString;
             label.Location = new Point(50, 0);
             label.Size = new Size(200, 30);
             label.Parent = panel;
@@ -206,7 +182,7 @@ namespace TaskManager
             c.Size = new Size(30, 30);
 
             c.Width = 20;
-            c.Name = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Id.ToString();
+            c.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString();
             this.Controls.Add(c);
             c.Click += c_Click;
             c.Parent = panel;
@@ -218,7 +194,7 @@ namespace TaskManager
             button.Location = new Point(280, 0);
             button.Size = new Size(90, 30);
             button.Text = "Delete";
-            button.Name = saveObject.Days[currentTime.Day - 1].Tasks[i-1].Id.ToString();
+            button.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString();
             button.Click += button_Click;
             button.Parent = panel;
             button.BringToFront();

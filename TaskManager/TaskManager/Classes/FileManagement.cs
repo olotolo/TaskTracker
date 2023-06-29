@@ -14,7 +14,11 @@ namespace TaskManager.Classes
     {
         public string GetFileText(DateTime dt)
         {
+
             string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
+
+            //For the release build
+            //path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory));
             try
             {
                 //Create save folder
@@ -44,13 +48,35 @@ namespace TaskManager.Classes
             return "";
         }
 
-        public void WriteFileText(SaveObject so, DateTime dt)
+        //returns the Saveobject
+        public SaveObject GetSaveObject(DateTime dt)
         {
-
-                string json = JsonConvert.SerializeObject(so);
-                File.WriteAllText(GetSavePath(dt), json);
+            try
+            {
+                SaveObject so = new SaveObject();
+                string fileString = GetFileText(dt);
+                if(fileString == "")
+                {
+                    return so;
+                }
+                SaveObject saveObject = JsonConvert.DeserializeObject<SaveObject>(fileString);
+                return saveObject;
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return new SaveObject();
 
         }
+
+        //Saves the SaveObject into the txt file
+        public void WriteFileText(SaveObject so, DateTime dt)
+        {
+            string json = JsonConvert.SerializeObject(so);
+            File.WriteAllText(GetSavePath(dt), json);
+        }
+
+        //returns the save path for the parsed date
         public string GetSavePath(DateTime dt)
         {
             string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));

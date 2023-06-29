@@ -54,4 +54,4 @@ C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Debug\net6.0-wind
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Debug\net6.0-windows\TaskManager.pdb
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Debug\net6.0-windows\TaskManager.genruntimeconfig.cache
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Debug\net6.0-windows\ref\TaskManager.dll
-C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Debug\net6.0-windows\TaskManager.Form1.resources
+C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Debug\net6.0-windows\TaskManager.TaskManager.resources

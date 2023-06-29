@@ -1,6 +1,6 @@
 ﻿namespace TaskManager
 {
-    partial class Form1
+    partial class TaskManager
     {
         /// <summary>
         ///  Required designer variable.
@@ -76,8 +76,8 @@
             Controls.Add(taskInput);
             Controls.Add(dateTimePicker1);
             Controls.Add(addTaskBtn);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "TaskManager";
+            Text = "TaskManager";
             ResumeLayout(false);
             PerformLayout();
         }
