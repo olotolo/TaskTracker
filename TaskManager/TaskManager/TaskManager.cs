@@ -165,6 +165,9 @@ namespace TaskManager
             {
                 panel.BackColor = Color.LightGray;
             }
+            panel.Click += Panel_Click;
+
+
             Label label = new Label();
             labels.Add(label);
             this.Controls.Add(label);
@@ -217,9 +220,11 @@ namespace TaskManager
             {
                 saveObject.Days[currentTime.Day - 1].Tasks[index].Checked = true;
             }
+        }
 
-
-
+        void Panel_Click(object sender, EventArgs e)
+        {
+            Panel? panel = sender as Panel;
         }
 
 
