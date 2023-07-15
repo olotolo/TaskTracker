@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System.Diagnostics;
 using TaskManager.Classes;
 
 namespace TaskManager
@@ -14,6 +15,7 @@ namespace TaskManager
             this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
             FileManagement fm = new FileManagement();
             saveObject = fm.GetSaveObject(DateTime.Now);
+            //errorLogText.Text = System.IO.Directory.GetCurrentDirectory();
             DisplayTasks();
         }
 
@@ -103,12 +105,10 @@ namespace TaskManager
         private List<Panel> panels = new List<Panel>();
         public void DisplayTasks()
         {
-            if (saveObject == null || saveObject.Days == null || saveObject.Days.Count < currentTime.Day-1 || saveObject.Days[currentTime.Day - 1] == null )
+            if (saveObject == null || saveObject.Days == null || saveObject.Days.Count < currentTime.Day - 1 || saveObject.Days[currentTime.Day - 1] == null)
             {
                 return;
             }
-
-
 
             for (int i = 0; i < saveObject.Days[currentTime.Day - 1].Tasks.Count(); i++)
             {
@@ -157,7 +157,8 @@ namespace TaskManager
 
         private void addTask(int i)
         {
-            Panel panel = new Panel();
+            ControlPanel panel = new ControlPanel();
+            panel.PanelId = i;
             panels.Add(panel);
             panel.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString();
             panel.Parent = taskPanel;
@@ -207,6 +208,10 @@ namespace TaskManager
             button.Click += button_Click;
             button.Parent = panel;
             button.BringToFront();
+
+            panel.button = button;
+            panel.checkBox = c;
+            panel.label = label;
         }
 
         // Checkbox
@@ -233,7 +238,7 @@ namespace TaskManager
         //When the panel is clicked;
         void Panel_Click(object sender, EventArgs e)
         {
-            Panel? panel = sender as Panel;
+            ControlPanel? panel = sender as ControlPanel;
             if (currentPanel != null)
             {
                 currentPanel.BackColor = panelColor;
@@ -248,7 +253,7 @@ namespace TaskManager
             panelColor = panel.BackColor;
             panel.BackColor = Color.LightBlue;
             currentPanel = panel;
-
+            taskInput.Text = saveObject.Days[currentTime.Day - 1].Tasks[panel.PanelId-1].TaskString;
         }
 
         public void AddDays(DateTime dt)

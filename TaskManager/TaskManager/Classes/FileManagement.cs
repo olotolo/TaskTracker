@@ -12,16 +12,16 @@ namespace TaskManager.Classes
 {
     internal class FileManagement
     {
+
+        public string Path()
+        {
+            return System.IO.Directory.GetCurrentDirectory();
+        }
+
         public string GetFileText(DateTime dt)
         {
+            string path = Path();
 
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
-
-            //For the release build
-            //string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory));
-
-
-            Debug.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
             try
             {
                 //Create save folder
@@ -82,7 +82,7 @@ namespace TaskManager.Classes
         //returns the save path for the parsed date
         public string GetSavePath(DateTime dt)
         {
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
+            string path = Path();
             string _month = dt.ToString("MMMM");
             string _year = dt.ToString("yyyy");
             return path + "/Save/" + _month + _year + ".txt";

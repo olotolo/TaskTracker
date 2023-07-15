@@ -32,6 +32,7 @@
             dateTimePicker1 = new DateTimePicker();
             taskInput = new TextBox();
             taskPanel = new Panel();
+            errorLogText = new Label();
             SuspendLayout();
             // 
             // addTaskBtn
@@ -68,11 +69,21 @@
             taskPanel.Size = new Size(402, 442);
             taskPanel.TabIndex = 5;
             // 
+            // errorLogText
+            // 
+            errorLogText.AutoSize = true;
+            errorLogText.Location = new Point(408, 446);
+            errorLogText.Name = "errorLogText";
+            errorLogText.Size = new Size(38, 15);
+            errorLogText.TabIndex = 0;
+            errorLogText.Text = "label1";
+            // 
             // TaskManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(822, 470);
+            Controls.Add(errorLogText);
             Controls.Add(taskPanel);
             Controls.Add(taskInput);
             Controls.Add(dateTimePicker1);
@@ -89,5 +100,6 @@
         private DateTimePicker dateTimePicker1;
         private TextBox taskInput;
         private Panel taskPanel;
+        private Label errorLogText;
     }
 }
