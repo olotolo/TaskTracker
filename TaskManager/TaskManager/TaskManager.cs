@@ -1,4 +1,7 @@
 using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using TaskManager.Classes;
 
 namespace TaskManager
@@ -14,7 +17,10 @@ namespace TaskManager
             this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
             FileManagement fm = new FileManagement();
             saveObject = fm.GetSaveObject(DateTime.Now);
+            //errorLogText.Text = System.IO.Directory.GetCurrentDirectory();
             DisplayTasks();
+            taskName.PlaceholderText = "Enter Task Name";
+            taskDescription.PlaceholderText = "Enter Task Description";
         }
 
         //Called when the Application (Form1) is closed
@@ -34,7 +40,8 @@ namespace TaskManager
             taskPanel.VerticalScroll.Value = 0;
 
             Classes.Task task = new Classes.Task();
-            task.TaskString = taskInput.Text;
+            task.TaskName = taskName.Text;
+            task.TaskDescription = taskDescription.Text;
             task.Id = Guid.NewGuid().ToString();
             DateTime dt = dateTimePicker1.Value.Date;
 
@@ -103,6 +110,10 @@ namespace TaskManager
         private List<Panel> panels = new List<Panel>();
         public void DisplayTasks()
         {
+            if (saveObject == null || saveObject.Days == null || saveObject.Days.Count < currentTime.Day - 1 || saveObject.Days[currentTime.Day - 1] == null)
+            {
+                return;
+            }
 
             for (int i = 0; i < saveObject.Days[currentTime.Day - 1].Tasks.Count(); i++)
             {
@@ -151,11 +162,18 @@ namespace TaskManager
 
         private void addTask(int i)
         {
-            Panel panel = new Panel();
+            ControlPanel panel = new ControlPanel();
+            panel.PanelId = i;
             panels.Add(panel);
+            panel.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString();
             panel.Parent = taskPanel;
             panel.Location = new Point(5, (i * 30));
             panel.Size = new Size(375, 30);
+            panel.Click += Panel_Click;
+
+            panel.PanelName = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].TaskName;
+            panel.PanelDescription = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].TaskDescription;
+
             taskPanel.AutoScroll = true;
             if (i % 2 == 0)
             {
@@ -165,25 +183,24 @@ namespace TaskManager
             {
                 panel.BackColor = Color.LightGray;
             }
-            panel.Click += Panel_Click;
 
 
             Label label = new Label();
             labels.Add(label);
             this.Controls.Add(label);
-            label.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString();
-            label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].TaskString;
-            label.Location = new Point(50, 0);
-            label.Size = new Size(200, 30);
+            label.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString() + "label";
+            label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].TaskName;
+            label.Location = new Point(80, 0);
+            label.Size = new Size(170, 30);
             label.Parent = panel;
             label.BringToFront();
+            label.Click += Text_Click;
 
             CheckBox c = new CheckBox();
             checkBoxes.Add(c);
             c.Checked = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Checked;
             c.Location = new Point(10, 0);
             c.Size = new Size(30, 30);
-
             c.Width = 20;
             c.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString();
             this.Controls.Add(c);
@@ -201,6 +218,10 @@ namespace TaskManager
             button.Click += button_Click;
             button.Parent = panel;
             button.BringToFront();
+
+            panel.button = button;
+            panel.checkBox = c;
+            panel.label = label;
         }
 
         // Checkbox
@@ -222,11 +243,38 @@ namespace TaskManager
             }
         }
 
-        void Panel_Click(object sender, EventArgs e)
+        private ControlPanel? currentPanel;
+        private Color panelColor;
+
+        void Text_Click(object sender, EventArgs e)
         {
-            Panel? panel = sender as Panel;
+            Label label = (Label)sender;
+            Panel_Click(label.Parent, e);
         }
 
+        //When the panel is clicked;
+        void Panel_Click(object sender, EventArgs e)
+        {
+            ControlPanel? panel = (ControlPanel)sender;
+            if (currentPanel != null)
+            {
+                currentPanel.BackColor = panelColor;
+            }
+
+            if (panel == currentPanel)
+            {
+                currentPanel.BackColor = panelColor;
+                currentPanel = null;
+                taskName.Text = "";
+                taskDescription.Text = "";
+                return;
+            }
+            panelColor = panel.BackColor;
+            panel.BackColor = Color.LightBlue;
+            currentPanel = panel;
+            taskName.Text = saveObject.Days[currentTime.Day - 1].Tasks[panel.PanelId - 1].TaskName;
+            taskDescription.Text = saveObject.Days[currentTime.Day - 1].Tasks[panel.PanelId - 1].TaskDescription;
+        }
 
         public void AddDays(DateTime dt)
         {
@@ -242,10 +290,23 @@ namespace TaskManager
 
         }
 
-        private void taskInput_TextChanged(object sender, EventArgs e)
+
+        //Auto save when changes are made
+        private void taskDescription_TextChanged(object sender, EventArgs e)
         {
+            if (saveObject == null || currentPanel == null) return;
+            saveObject.Days[currentTime.Day - 1].Tasks[currentPanel.PanelId - 1].TaskDescription = taskDescription.Text;
+        }
+
+        private void taskName_TextChanged(object sender, EventArgs e)
+        {
+            if (saveObject == null || currentPanel == null) return;
+            saveObject.Days[currentTime.Day - 1].Tasks[currentPanel.PanelId - 1].TaskName = taskName.Text;
+            currentPanel.label.Text = taskName.Text;
 
         }
+
+
 
     }
 }
