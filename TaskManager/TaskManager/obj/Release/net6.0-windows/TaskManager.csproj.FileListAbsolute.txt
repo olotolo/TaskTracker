@@ -5,7 +5,6 @@ C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\bin\Release\net6.0-wi
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\bin\Release\net6.0-windows\TaskManager.pdb
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\bin\Release\net6.0-windows\Newtonsoft.Json.dll
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Release\net6.0-windows\TaskManager.csproj.AssemblyReference.cache
-C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Release\net6.0-windows\TaskManager.Form1.resources
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Release\net6.0-windows\TaskManager.csproj.GenerateResource.cache
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Release\net6.0-windows\TaskManager.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Release\net6.0-windows\TaskManager.AssemblyInfoInputs.cache
@@ -17,3 +16,4 @@ C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Release\net6.0-wi
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Release\net6.0-windows\TaskManager.pdb
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Release\net6.0-windows\TaskManager.genruntimeconfig.cache
 C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Release\net6.0-windows\ref\TaskManager.dll
+C:\Users\olesc\Desktop\TaskTracker\TaskManager\TaskManager\obj\Release\net6.0-windows\TaskManager.TaskManager.resources

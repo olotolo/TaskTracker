@@ -103,6 +103,12 @@ namespace TaskManager
         private List<Panel> panels = new List<Panel>();
         public void DisplayTasks()
         {
+            if (saveObject == null || saveObject.Days == null || saveObject.Days.Count < currentTime.Day-1 || saveObject.Days[currentTime.Day - 1] == null )
+            {
+                return;
+            }
+
+
 
             for (int i = 0; i < saveObject.Days[currentTime.Day - 1].Tasks.Count(); i++)
             {
@@ -222,7 +228,7 @@ namespace TaskManager
             }
         }
 
-        private Panel currentPanel;
+        private Panel? currentPanel;
         private Color panelColor;
         //When the panel is clicked;
         void Panel_Click(object sender, EventArgs e)

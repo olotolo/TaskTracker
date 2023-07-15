@@ -18,7 +18,10 @@ namespace TaskManager.Classes
             string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
 
             //For the release build
-            //path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory));
+            //string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory));
+
+
+            Debug.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
             try
             {
                 //Create save folder

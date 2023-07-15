@@ -1,0 +1,9 @@
+TaskManager / TaskPlanner /TaskTracker:
+
+	- When creating Tasks, there is an option to carry them over to the next day, if not fulfilled. (Check up to x (7 for now) days)
+	- Tasks can be marked as repeating tasks. (Every Day, Every other Day, Every specific day in the week.)
+
+	
+
+
+	- Port the Application to Xamarin to make it accessible for mobile both iOS and Android
