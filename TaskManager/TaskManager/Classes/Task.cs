@@ -11,7 +11,8 @@ namespace TaskManager.Classes
     public class Task
     {
         public string? Id { get; set; }
-        public string? TaskString { get; set; }
+        public string? TaskName { get; set; }
+        public string? TaskDescription { get; set; }
         public bool Checked { get; set; } = false;
     }
 }

@@ -36,7 +36,8 @@ namespace TaskManager
             taskPanel.VerticalScroll.Value = 0;
 
             Classes.Task task = new Classes.Task();
-            task.TaskString = taskInput.Text;
+            task.TaskName = taskName.Text;
+            task.TaskDescription = taskDescription.Text;
             task.Id = Guid.NewGuid().ToString();
             DateTime dt = dateTimePicker1.Value.Date;
 
@@ -164,6 +165,11 @@ namespace TaskManager
             panel.Parent = taskPanel;
             panel.Location = new Point(5, (i * 30));
             panel.Size = new Size(375, 30);
+            panel.Click += Panel_Click;
+
+            panel.PanelName = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].TaskName;
+            panel.PanelDescription = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].TaskDescription;
+
             taskPanel.AutoScroll = true;
             if (i % 2 == 0)
             {
@@ -173,18 +179,18 @@ namespace TaskManager
             {
                 panel.BackColor = Color.LightGray;
             }
-            panel.Click += Panel_Click;
 
 
             Label label = new Label();
             labels.Add(label);
             this.Controls.Add(label);
             label.Name = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].Id.ToString() + "label";
-            label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].TaskString;
+            label.Text = saveObject.Days[currentTime.Day - 1].Tasks[i - 1].TaskName;
             label.Location = new Point(80, 0);
             label.Size = new Size(170, 30);
             label.Parent = panel;
             label.BringToFront();
+            label.Click += Text_Click;
 
             CheckBox c = new CheckBox();
             checkBoxes.Add(c);
@@ -235,10 +241,17 @@ namespace TaskManager
 
         private Panel? currentPanel;
         private Color panelColor;
+
+        void Text_Click(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            Panel_Click(label.Parent, e);
+        }
+
         //When the panel is clicked;
         void Panel_Click(object sender, EventArgs e)
         {
-            ControlPanel? panel = sender as ControlPanel;
+            ControlPanel? panel = (ControlPanel)sender;
             if (currentPanel != null)
             {
                 currentPanel.BackColor = panelColor;
@@ -248,12 +261,15 @@ namespace TaskManager
             {
                 currentPanel.BackColor = panelColor;
                 currentPanel = null;
+                taskName.Text = "";
+                taskDescription.Text = "";
                 return;
             }
             panelColor = panel.BackColor;
             panel.BackColor = Color.LightBlue;
             currentPanel = panel;
-            taskInput.Text = saveObject.Days[currentTime.Day - 1].Tasks[panel.PanelId-1].TaskString;
+            taskName.Text = saveObject.Days[currentTime.Day - 1].Tasks[panel.PanelId - 1].TaskName;
+            taskDescription.Text = panel.PanelDescription;
         }
 
         public void AddDays(DateTime dt)

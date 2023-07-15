@@ -30,14 +30,15 @@
         {
             addTaskBtn = new Button();
             dateTimePicker1 = new DateTimePicker();
-            taskInput = new TextBox();
+            taskDescription = new TextBox();
             taskPanel = new Panel();
             errorLogText = new Label();
+            taskName = new TextBox();
             SuspendLayout();
             // 
             // addTaskBtn
             // 
-            addTaskBtn.Location = new Point(564, 98);
+            addTaskBtn.Location = new Point(417, 184);
             addTaskBtn.Name = "addTaskBtn";
             addTaskBtn.Size = new Size(120, 45);
             addTaskBtn.TabIndex = 1;
@@ -53,14 +54,14 @@
             dateTimePicker1.TabIndex = 3;
             dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
-            // taskInput
+            // taskDescription
             // 
-            taskInput.Location = new Point(408, 29);
-            taskInput.Multiline = true;
-            taskInput.Name = "taskInput";
-            taskInput.Size = new Size(402, 63);
-            taskInput.TabIndex = 4;
-            taskInput.TextChanged += taskInput_TextChanged;
+            taskDescription.Location = new Point(417, 58);
+            taskDescription.Multiline = true;
+            taskDescription.Name = "taskDescription";
+            taskDescription.Size = new Size(402, 120);
+            taskDescription.TabIndex = 4;
+            taskDescription.TextChanged += taskInput_TextChanged;
             // 
             // taskPanel
             // 
@@ -78,14 +79,22 @@
             errorLogText.TabIndex = 0;
             errorLogText.Text = "label1";
             // 
+            // taskName
+            // 
+            taskName.Location = new Point(417, 29);
+            taskName.Name = "taskName";
+            taskName.Size = new Size(213, 23);
+            taskName.TabIndex = 6;
+            // 
             // TaskManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(822, 470);
+            Controls.Add(taskName);
             Controls.Add(errorLogText);
             Controls.Add(taskPanel);
-            Controls.Add(taskInput);
+            Controls.Add(taskDescription);
             Controls.Add(dateTimePicker1);
             Controls.Add(addTaskBtn);
             Name = "TaskManager";
@@ -98,8 +107,9 @@
         #endregion
         private Button addTaskBtn;
         private DateTimePicker dateTimePicker1;
-        private TextBox taskInput;
+        private TextBox taskDescription;
         private Panel taskPanel;
         private Label errorLogText;
+        private TextBox taskName;
     }
 }
