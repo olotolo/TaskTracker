@@ -61,7 +61,7 @@
             taskDescription.Name = "taskDescription";
             taskDescription.Size = new Size(402, 120);
             taskDescription.TabIndex = 4;
-            taskDescription.TextChanged += taskInput_TextChanged;
+            taskDescription.TextChanged += taskDescription_TextChanged;
             // 
             // taskPanel
             // 
@@ -85,6 +85,7 @@
             taskName.Name = "taskName";
             taskName.Size = new Size(213, 23);
             taskName.TabIndex = 6;
+            taskName.TextChanged += taskName_TextChanged;
             // 
             // TaskManager
             // 

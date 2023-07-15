@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using TaskManager.Classes;
 
 namespace TaskManager
@@ -17,6 +19,8 @@ namespace TaskManager
             saveObject = fm.GetSaveObject(DateTime.Now);
             //errorLogText.Text = System.IO.Directory.GetCurrentDirectory();
             DisplayTasks();
+            taskName.PlaceholderText = "Enter Task Name";
+            taskDescription.PlaceholderText = "Enter Task Description";
         }
 
         //Called when the Application (Form1) is closed
@@ -239,7 +243,7 @@ namespace TaskManager
             }
         }
 
-        private Panel? currentPanel;
+        private ControlPanel? currentPanel;
         private Color panelColor;
 
         void Text_Click(object sender, EventArgs e)
@@ -269,7 +273,7 @@ namespace TaskManager
             panel.BackColor = Color.LightBlue;
             currentPanel = panel;
             taskName.Text = saveObject.Days[currentTime.Day - 1].Tasks[panel.PanelId - 1].TaskName;
-            taskDescription.Text = panel.PanelDescription;
+            taskDescription.Text = saveObject.Days[currentTime.Day - 1].Tasks[panel.PanelId - 1].TaskDescription;
         }
 
         public void AddDays(DateTime dt)
@@ -286,10 +290,23 @@ namespace TaskManager
 
         }
 
-        private void taskInput_TextChanged(object sender, EventArgs e)
+
+        //Auto save when changes are made
+        private void taskDescription_TextChanged(object sender, EventArgs e)
         {
+            if (saveObject == null || currentPanel == null) return;
+            saveObject.Days[currentTime.Day - 1].Tasks[currentPanel.PanelId - 1].TaskDescription = taskDescription.Text;
+        }
+
+        private void taskName_TextChanged(object sender, EventArgs e)
+        {
+            if (saveObject == null || currentPanel == null) return;
+            saveObject.Days[currentTime.Day - 1].Tasks[currentPanel.PanelId - 1].TaskName = taskName.Text;
+            currentPanel.label.Text = taskName.Text;
 
         }
+
+
 
     }
 }
