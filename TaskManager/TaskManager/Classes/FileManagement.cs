@@ -88,5 +88,34 @@ namespace TaskManager.Classes
             return path + "/Save/" + _month + _year + ".txt";
         }
 
+        public string LoadRepeatingTask()
+        {
+            string path = Path() + "/Save/RepeatingTasks.txt";
+            if (!File.Exists(path))
+            {
+                FileStream fs = new FileStream(path, FileMode.CreateNew);
+                fs.Close();
+                return "";
+            }
+            else
+            {
+                return File.ReadAllText(path);
+            }
+        }
+
+        public void SaveRepeatingTask(List<RepeatingTask> list)
+        {
+            try
+            {
+                string location = Path + "/Save/RepeatingTasks.txt";
+                string json = JsonConvert.SerializeObject(list);
+                File.WriteAllText(location, json);
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+
     }
 }

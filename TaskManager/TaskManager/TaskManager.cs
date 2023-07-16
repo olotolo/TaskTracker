@@ -15,6 +15,9 @@ namespace TaskManager
         {
             InitializeComponent();
 
+            RepeatingTasks rt = new RepeatingTasks();
+            rt.SetRepeatingTask();
+
             MoveLastTasks moveLastTasks = new MoveLastTasks();
             moveLastTasks.MoveUnfinishedTasks();
 
@@ -27,7 +30,6 @@ namespace TaskManager
             taskDescription.PlaceholderText = "Enter Task Description";
 
 
-            
 
         }
 
@@ -123,6 +125,7 @@ namespace TaskManager
             {
                 return;
             }
+            
 
             for (int i = 0; i < saveObject.Days[currentTime.Day - 1].Tasks.Count(); i++)
             {
