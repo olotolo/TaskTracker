@@ -34,6 +34,7 @@
             taskPanel = new Panel();
             errorLogText = new Label();
             taskName = new TextBox();
+            carryOverCheckBox = new CheckBox();
             SuspendLayout();
             // 
             // addTaskBtn
@@ -87,11 +88,23 @@
             taskName.TabIndex = 6;
             taskName.TextChanged += taskName_TextChanged;
             // 
+            // carryOverCheckBox
+            // 
+            carryOverCheckBox.AutoSize = true;
+            carryOverCheckBox.Location = new Point(417, 245);
+            carryOverCheckBox.Name = "carryOverCheckBox";
+            carryOverCheckBox.Size = new Size(234, 19);
+            carryOverCheckBox.TabIndex = 7;
+            carryOverCheckBox.Text = "Carry over to next Day if not completed";
+            carryOverCheckBox.UseVisualStyleBackColor = true;
+            carryOverCheckBox.Click += carryOver_Click;
+            // 
             // TaskManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(822, 470);
+            Controls.Add(carryOverCheckBox);
             Controls.Add(taskName);
             Controls.Add(errorLogText);
             Controls.Add(taskPanel);
@@ -112,5 +125,6 @@
         private Panel taskPanel;
         private Label errorLogText;
         private TextBox taskName;
+        private CheckBox carryOverCheckBox;
     }
 }

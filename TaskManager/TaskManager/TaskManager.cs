@@ -14,6 +14,10 @@ namespace TaskManager
         public TaskManager()
         {
             InitializeComponent();
+
+            MoveLastTasks moveLastTasks = new MoveLastTasks();
+            moveLastTasks.MoveUnfinishedTasks();
+
             this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
             FileManagement fm = new FileManagement();
             saveObject = fm.GetSaveObject(DateTime.Now);
@@ -21,6 +25,10 @@ namespace TaskManager
             DisplayTasks();
             taskName.PlaceholderText = "Enter Task Name";
             taskDescription.PlaceholderText = "Enter Task Description";
+
+
+            
+
         }
 
         //Called when the Application (Form1) is closed
@@ -43,6 +51,7 @@ namespace TaskManager
             task.TaskName = taskName.Text;
             task.TaskDescription = taskDescription.Text;
             task.Id = Guid.NewGuid().ToString();
+            task.CarryOver = carryOverCheckBox.Checked;
             DateTime dt = dateTimePicker1.Value.Date;
 
             if (saveObject != null)
@@ -126,7 +135,11 @@ namespace TaskManager
         void button_Click(object sender, EventArgs e)
         {
             Button? btn = sender as Button;
+            if (btn == null || saveObject == null) return;
+            ControlPanel cp = (ControlPanel)btn.Parent;
+
             var itemToRemove = saveObject.Days[currentTime.Day - 1].Tasks.Single(r => r.Id == btn.Name);
+
             saveObject.Days[currentTime.Day - 1].Tasks.Remove(itemToRemove);
             FileManagement fm = new FileManagement();
             //Save Changes to txt file.
@@ -243,6 +256,19 @@ namespace TaskManager
             }
         }
 
+        void carryOver_Click(object sender, EventArgs e)
+        {
+            if (currentPanel == null || saveObject == null) return;
+            saveObject.Days[currentTime.Day - 1].Tasks[currentPanel.PanelId - 1].CarryOver = carryOverCheckBox.Checked;
+            /*if(carryOverCheckBox.Checked == true)
+            {
+                carryOverCheckBox.Checked = false;
+            } else
+            {
+                carryOverCheckBox.Checked = true;
+            }*/
+        }
+
         private ControlPanel? currentPanel;
         private Color panelColor;
 
@@ -267,6 +293,7 @@ namespace TaskManager
                 currentPanel = null;
                 taskName.Text = "";
                 taskDescription.Text = "";
+                carryOverCheckBox.Checked = false;
                 return;
             }
             panelColor = panel.BackColor;
@@ -274,6 +301,7 @@ namespace TaskManager
             currentPanel = panel;
             taskName.Text = saveObject.Days[currentTime.Day - 1].Tasks[panel.PanelId - 1].TaskName;
             taskDescription.Text = saveObject.Days[currentTime.Day - 1].Tasks[panel.PanelId - 1].TaskDescription;
+            carryOverCheckBox.Checked = saveObject.Days[currentTime.Day - 1].Tasks[panel.PanelId - 1].CarryOver;
         }
 
         public void AddDays(DateTime dt)
