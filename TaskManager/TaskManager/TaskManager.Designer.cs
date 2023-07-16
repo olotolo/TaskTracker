@@ -32,9 +32,16 @@
             dateTimePicker1 = new DateTimePicker();
             taskDescription = new TextBox();
             taskPanel = new Panel();
-            errorLogText = new Label();
             taskName = new TextBox();
             carryOverCheckBox = new CheckBox();
+            repeatTaskCheckBox = new CheckBox();
+            mondayCheckBox = new CheckBox();
+            tuesdayCheckBox = new CheckBox();
+            WednesdayCheckBox = new CheckBox();
+            thursdayCheckBox = new CheckBox();
+            fridayCheckBox = new CheckBox();
+            saturdayCheckBox = new CheckBox();
+            sundayCheckBox = new CheckBox();
             SuspendLayout();
             // 
             // addTaskBtn
@@ -71,15 +78,6 @@
             taskPanel.Size = new Size(402, 442);
             taskPanel.TabIndex = 5;
             // 
-            // errorLogText
-            // 
-            errorLogText.AutoSize = true;
-            errorLogText.Location = new Point(408, 446);
-            errorLogText.Name = "errorLogText";
-            errorLogText.Size = new Size(38, 15);
-            errorLogText.TabIndex = 0;
-            errorLogText.Text = "label1";
-            // 
             // taskName
             // 
             taskName.Location = new Point(417, 29);
@@ -99,20 +97,110 @@
             carryOverCheckBox.UseVisualStyleBackColor = true;
             carryOverCheckBox.Click += carryOver_Click;
             // 
+            // repeatTaskCheckBox
+            // 
+            repeatTaskCheckBox.AutoSize = true;
+            repeatTaskCheckBox.Location = new Point(732, 245);
+            repeatTaskCheckBox.Name = "repeatTaskCheckBox";
+            repeatTaskCheckBox.Size = new Size(87, 19);
+            repeatTaskCheckBox.TabIndex = 8;
+            repeatTaskCheckBox.Text = "Repeat Task";
+            repeatTaskCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mondayCheckBox
+            // 
+            mondayCheckBox.AutoSize = true;
+            mondayCheckBox.Location = new Point(732, 294);
+            mondayCheckBox.Name = "mondayCheckBox";
+            mondayCheckBox.Size = new Size(70, 19);
+            mondayCheckBox.TabIndex = 9;
+            mondayCheckBox.Text = "Monday";
+            mondayCheckBox.UseVisualStyleBackColor = true;
+            mondayCheckBox.CheckedChanged += mondayCheckBox_CheckedChanged;
+            // 
+            // tuesdayCheckBox
+            // 
+            tuesdayCheckBox.AutoSize = true;
+            tuesdayCheckBox.Location = new Point(732, 319);
+            tuesdayCheckBox.Name = "tuesdayCheckBox";
+            tuesdayCheckBox.Size = new Size(69, 19);
+            tuesdayCheckBox.TabIndex = 10;
+            tuesdayCheckBox.Text = "Tuesday";
+            tuesdayCheckBox.UseVisualStyleBackColor = true;
+            tuesdayCheckBox.CheckedChanged += tuesdayCheckBox_CheckedChanged;
+            // 
+            // WednesdayCheckBox
+            // 
+            WednesdayCheckBox.AutoSize = true;
+            WednesdayCheckBox.Location = new Point(732, 344);
+            WednesdayCheckBox.Name = "WednesdayCheckBox";
+            WednesdayCheckBox.Size = new Size(87, 19);
+            WednesdayCheckBox.TabIndex = 11;
+            WednesdayCheckBox.Text = "Wednesday";
+            WednesdayCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // thursdayCheckBox
+            // 
+            thursdayCheckBox.AutoSize = true;
+            thursdayCheckBox.Location = new Point(732, 369);
+            thursdayCheckBox.Name = "thursdayCheckBox";
+            thursdayCheckBox.Size = new Size(74, 19);
+            thursdayCheckBox.TabIndex = 12;
+            thursdayCheckBox.Text = "Thursday";
+            thursdayCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // fridayCheckBox
+            // 
+            fridayCheckBox.AutoSize = true;
+            fridayCheckBox.Location = new Point(732, 394);
+            fridayCheckBox.Name = "fridayCheckBox";
+            fridayCheckBox.Size = new Size(58, 19);
+            fridayCheckBox.TabIndex = 13;
+            fridayCheckBox.Text = "Friday";
+            fridayCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // saturdayCheckBox
+            // 
+            saturdayCheckBox.AutoSize = true;
+            saturdayCheckBox.Location = new Point(732, 419);
+            saturdayCheckBox.Name = "saturdayCheckBox";
+            saturdayCheckBox.Size = new Size(72, 19);
+            saturdayCheckBox.TabIndex = 14;
+            saturdayCheckBox.Text = "Saturday";
+            saturdayCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // sundayCheckBox
+            // 
+            sundayCheckBox.AutoSize = true;
+            sundayCheckBox.Location = new Point(732, 444);
+            sundayCheckBox.Name = "sundayCheckBox";
+            sundayCheckBox.Size = new Size(65, 19);
+            sundayCheckBox.TabIndex = 15;
+            sundayCheckBox.Text = "Sunday";
+            sundayCheckBox.UseVisualStyleBackColor = true;
+            // 
             // TaskManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(822, 470);
+            ClientSize = new Size(994, 601);
+            Controls.Add(sundayCheckBox);
+            Controls.Add(saturdayCheckBox);
+            Controls.Add(fridayCheckBox);
+            Controls.Add(thursdayCheckBox);
+            Controls.Add(WednesdayCheckBox);
+            Controls.Add(tuesdayCheckBox);
+            Controls.Add(mondayCheckBox);
+            Controls.Add(repeatTaskCheckBox);
             Controls.Add(carryOverCheckBox);
             Controls.Add(taskName);
-            Controls.Add(errorLogText);
             Controls.Add(taskPanel);
             Controls.Add(taskDescription);
             Controls.Add(dateTimePicker1);
             Controls.Add(addTaskBtn);
             Name = "TaskManager";
             Text = "TaskManager";
+            Load += TaskManager_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -123,8 +211,15 @@
         private DateTimePicker dateTimePicker1;
         private TextBox taskDescription;
         private Panel taskPanel;
-        private Label errorLogText;
         private TextBox taskName;
         private CheckBox carryOverCheckBox;
+        private CheckBox repeatTaskCheckBox;
+        private CheckBox mondayCheckBox;
+        private CheckBox tuesdayCheckBox;
+        private CheckBox WednesdayCheckBox;
+        private CheckBox thursdayCheckBox;
+        private CheckBox fridayCheckBox;
+        private CheckBox saturdayCheckBox;
+        private CheckBox sundayCheckBox;
     }
 }

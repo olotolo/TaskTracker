@@ -46,6 +46,8 @@ namespace TaskManager
         //Button press adds a Task
         private void addTaskBtn_Click(object sender, EventArgs e)
         {
+            FileManagement fm = new FileManagement();
+
             int temp = taskPanel.VerticalScroll.Value;
             taskPanel.VerticalScroll.Value = 0;
 
@@ -55,6 +57,29 @@ namespace TaskManager
             task.Id = Guid.NewGuid().ToString();
             task.CarryOver = carryOverCheckBox.Checked;
             DateTime dt = dateTimePicker1.Value.Date;
+
+            if (repeatTaskCheckBox.Checked)
+            {
+
+                RepeatingTask tasks = fm.LoadRepeatingTask();
+                if (tasks == null)
+                {
+                    tasks = new RepeatingTask();
+                }
+                if(mondayCheckBox.Checked) { tasks.Monday.Add(task); }
+                if(tuesdayCheckBox.Checked) { tasks.Tuesday.Add(task); }
+                if(WednesdayCheckBox.Checked) { tasks.Wednesday.Add(task); }
+                if(thursdayCheckBox.Checked) { tasks.Thursday.Add(task); }
+                if(fridayCheckBox.Checked) { tasks.Friday.Add(task); }
+                if(saturdayCheckBox.Checked) { tasks.Saturday.Add(task); }
+                if(sundayCheckBox.Checked) { tasks.Sunday.Add(task); }
+
+
+                fm.SaveRepeatingTask(tasks);
+                return;
+
+            }
+
 
             if (saveObject != null)
             {
@@ -67,7 +92,6 @@ namespace TaskManager
             }
 
             //Save Changes to txt file.
-            FileManagement fm = new FileManagement();
 
             if (saveObject != null)
             {
@@ -125,7 +149,7 @@ namespace TaskManager
             {
                 return;
             }
-            
+
 
             for (int i = 0; i < saveObject.Days[currentTime.Day - 1].Tasks.Count(); i++)
             {
@@ -337,7 +361,19 @@ namespace TaskManager
 
         }
 
+        private void tuesdayCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
 
+        }
 
+        private void mondayCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TaskManager_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

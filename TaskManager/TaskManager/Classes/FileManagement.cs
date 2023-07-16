@@ -88,27 +88,30 @@ namespace TaskManager.Classes
             return path + "/Save/" + _month + _year + ".txt";
         }
 
-        public string LoadRepeatingTask()
+        public RepeatingTask LoadRepeatingTask()
         {
+            RepeatingTask list = new RepeatingTask();
             string path = Path() + "/Save/RepeatingTasks.txt";
             if (!File.Exists(path))
             {
                 FileStream fs = new FileStream(path, FileMode.CreateNew);
                 fs.Close();
-                return "";
+                return list;
             }
             else
             {
-                return File.ReadAllText(path);
+                string data = File.ReadAllText(path);
+                list = JsonConvert.DeserializeObject<RepeatingTask>(data);
+                return list;
             }
         }
 
-        public void SaveRepeatingTask(List<RepeatingTask> list)
+        public void SaveRepeatingTask(RepeatingTask repeatingTask)
         {
             try
             {
-                string location = Path + "/Save/RepeatingTasks.txt";
-                string json = JsonConvert.SerializeObject(list);
+                string location = Path() + "/Save/RepeatingTasks.txt";
+                string json = JsonConvert.SerializeObject(repeatingTask);
                 File.WriteAllText(location, json);
             } catch (Exception ex)
             {
