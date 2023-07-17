@@ -101,13 +101,12 @@ namespace TaskManager.Classes
             else
             {
                 string data = File.ReadAllText(path);
-                System.Diagnostics.Debug.WriteLine(data);
                 if (data == null || data == "") {
                     return list;
                 }
                 RepeatingTaskList rtl = JsonConvert.DeserializeObject<RepeatingTaskList>(data);
 
-                System.Diagnostics.Debug.WriteLine(rtl.RepeatingTasks.Count);
+                System.Diagnostics.Debug.WriteLine(rtl.RepeatingTasks[0].WeekDays[0].Count);
                 return rtl.RepeatingTasks;
             }
         }

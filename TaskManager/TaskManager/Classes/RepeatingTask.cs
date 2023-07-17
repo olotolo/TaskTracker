@@ -7,7 +7,9 @@ public class RepeatingTask : TaskManager.Classes.Task {
         this.TaskName = t.TaskName;
         this.TaskDescription = t.TaskDescription; 
         this.CarryOver = t.CarryOver;
-    }
+
+
+}
     public RepeatingTask() {
 
     }
@@ -15,15 +17,7 @@ public class RepeatingTask : TaskManager.Classes.Task {
 
     public string? Guid;
     // 0 = Stunday, 1 = Monday... 6 = Saturday
-    public List<List<TaskManager.Classes.Task>> WeekDays = new List<List<TaskManager.Classes.Task>> {
-        new List<TaskManager.Classes.Task>(),
-        new List<TaskManager.Classes.Task>(),
-        new List<TaskManager.Classes.Task>(),
-        new List<TaskManager.Classes.Task>(),
-        new List<TaskManager.Classes.Task>(),
-        new List<TaskManager.Classes.Task>(),
-        new List<TaskManager.Classes.Task>(),
-    };
+    public List<List<TaskManager.Classes.Task>> WeekDays = new List<List<TaskManager.Classes.Task>>();
     
 /*    //1 = Monday, 2 = Tuesday..., 7 = Sunday
     public List<TaskManager.Classes.Task>? Monday = new List<TaskManager.Classes.Task>();

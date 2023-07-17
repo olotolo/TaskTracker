@@ -34,19 +34,25 @@ namespace TaskManager
         }
 
         private void LoadRepeatingTasks() {
+
+            DateTime dt = dateTimePicker1.Value.Date;
             bool add = true;
             FileManagement fm = new FileManagement();
             RepeatingTasks rt = new RepeatingTasks();
             List<RepeatingTask> rtasks = fm.LoadRepeatingTask();
             foreach (RepeatingTask rtask in rtasks) {
-                if (rtask.WeekDays[(int)currentTime.DayOfWeek] != null) {
+                System.Diagnostics.Debug.WriteLine("Monday Tasks: " + rtask.WeekDays.Count);
+
+                //Fix this 
+                if (rtask.WeekDays[(int)dt.DayOfWeek] != null && rtask.WeekDays[(int)dt.DayOfWeek].Count > 0) {
                     if (saveObject != null && saveObject.Days.Count < currentTime.Day) {
-                        DateTime dt = dateTimePicker1.Value.Date;
                         while (saveObject.Days.Count < dt.Day) {
                             AddDays(dt);
                         }
                     }
-
+                    if(saveObject == null || saveObject.Days == null || saveObject.Days.Count < currentTime.Day) {
+                        return;
+                    }
                     //Check if the task with the id already exists in there
                     foreach(Classes.Task t in saveObject.Days[currentTime.Day-1].Tasks) {
                         if(t.Id == rtask.Id) {
@@ -55,8 +61,7 @@ namespace TaskManager
                         }
                     }
                     if(add == true) {
-                        saveObject.Days[currentTime.Day - 1].Tasks.Add(rtask);
-
+                        saveObject.Days[dt.Day - 1].Tasks.Add(rtask);
                     }
                 }
             }
@@ -89,14 +94,21 @@ namespace TaskManager
 
             if (repeatTaskCheckBox.Checked)
             {
-
                 List<RepeatingTask> taskList = fm.LoadRepeatingTask();
-                RepeatingTask newTask = new RepeatingTask(task);
+                RepeatingTask newTask = new RepeatingTask();
+                newTask.TaskName = task.TaskName;
+                newTask.TaskDescription = task.TaskDescription;
+                newTask.Id = task.Id;
+                System.Diagnostics.Debug.WriteLine("new task week days"+newTask.WeekDays.Count);
+
 
                 newTask.TaskName = task.TaskName;
                 if (taskList == null)
                 {
                     taskList = new List<RepeatingTask>();
+                }
+                while(newTask.WeekDays.Count < 7) {
+                    newTask.WeekDays.Add(new List<Classes.Task>());
                 }
                 if(mondayCheckBox.Checked) { newTask.WeekDays[1].Add(task); }
                 if(tuesdayCheckBox.Checked) { newTask.WeekDays[2].Add(task); }
@@ -111,6 +123,7 @@ namespace TaskManager
                 taskList.Add(newTask);
                 System.Diagnostics.Debug.WriteLine("List after adding new task: " + JsonConvert.SerializeObject(taskList));
                 fm.SaveRepeatingTask(taskList);
+                System.Diagnostics.Debug.WriteLine("new task week days" + newTask.WeekDays.Count);
                 return;
 
             }
@@ -155,7 +168,6 @@ namespace TaskManager
                 string SaveText = fm.GetFileText(dt);
 
                 saveObject = JsonConvert.DeserializeObject<SaveObject>(SaveText);
-                LoadRepeatingTasks();
                 if (saveObject == null)
                 {
                     saveObject = new SaveObject();
