@@ -88,9 +88,9 @@ namespace TaskManager.Classes
             return path + "/Save/" + _month + _year + ".txt";
         }
 
-        public RepeatingTask LoadRepeatingTask()
+        public List<RepeatingTask> LoadRepeatingTask()
         {
-            RepeatingTask list = new RepeatingTask();
+            List<RepeatingTask> list = new List<RepeatingTask>();
             string path = Path() + "/Save/RepeatingTasks.txt";
             if (!File.Exists(path))
             {
@@ -101,17 +101,25 @@ namespace TaskManager.Classes
             else
             {
                 string data = File.ReadAllText(path);
-                list = JsonConvert.DeserializeObject<RepeatingTask>(data);
-                return list;
+                System.Diagnostics.Debug.WriteLine(data);
+                if (data == null || data == "") {
+                    return list;
+                }
+                RepeatingTaskList rtl = JsonConvert.DeserializeObject<RepeatingTaskList>(data);
+
+                System.Diagnostics.Debug.WriteLine(rtl.RepeatingTasks.Count);
+                return rtl.RepeatingTasks;
             }
         }
 
-        public void SaveRepeatingTask(RepeatingTask repeatingTask)
+        public void SaveRepeatingTask(List<RepeatingTask> repeatingTask)
         {
             try
             {
                 string location = Path() + "/Save/RepeatingTasks.txt";
-                string json = JsonConvert.SerializeObject(repeatingTask);
+                RepeatingTaskList rtl = new RepeatingTaskList();
+                rtl.RepeatingTasks = repeatingTask;
+                string json = JsonConvert.SerializeObject(rtl);
                 File.WriteAllText(location, json);
             } catch (Exception ex)
             {
