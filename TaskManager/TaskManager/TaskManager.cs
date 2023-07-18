@@ -360,6 +360,14 @@ namespace TaskManager
         void Panel_Click(object sender, EventArgs e)
         {
             ControlPanel? panel = (ControlPanel)sender;
+            mondayCheckBox.Checked = false;
+            tuesdayCheckBox.Checked = false;
+            WednesdayCheckBox.Checked = false;
+            thursdayCheckBox.Checked = false;
+            fridayCheckBox.Checked = false;
+            saturdayCheckBox.Checked = false;
+            sundayCheckBox.Checked = false;
+            repeatTaskCheckBox.Checked = false;
             if (currentPanel != null)
             {
                 currentPanel.BackColor = panelColor;
